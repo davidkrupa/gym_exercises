@@ -5,7 +5,6 @@ import Icon from '../assets/icons/gym.png'
 
 const BodyPart = ({ item, bodyPart, setBodyPart }) => {
 
-  console.log(item)
   return (
     <Stack
       type="button"
