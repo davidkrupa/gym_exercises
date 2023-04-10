@@ -13,11 +13,12 @@ const ExerciseDetail = () => {
   const [targetMuscleExercises, setTargetMuscleExercises] = useState([])
   const [equipmentExercises, setEquipmentExercises] = useState([])
   const { id } = useParams()
+  const maxCarouselLength = 7 
 
   useEffect(() => {
     const fetchExerciseData = async () => {
       const exerciseDbUrl = `https://exercisedb.p.rapidapi.com`
-      const youtubeSearchUrl = `https://youtube-search-and-download.p.rapidapi.com`      
+      const youtubeSearchUrl = `https://youtube-search-and-download.p.rapidapi.com`          
 
       const exerciseDetailData = await fetchData(`${exerciseDbUrl}/exercises/exercise/${id}`, exerciseOptions)
       setExerciseDetail(exerciseDetailData)      
@@ -26,10 +27,17 @@ const ExerciseDetail = () => {
       setExerciseVideos(exercisesVideoData)
 
       const targetMuscleExercisesData = await fetchData(`${exerciseDbUrl}/exercises/target/${exerciseDetailData.target}`, exerciseOptions)
-      setTargetMuscleExercises(targetMuscleExercisesData)
+      const carouselTargetMuscleExercises = targetMuscleExercisesData.length > maxCarouselLength
+        ? targetMuscleExercisesData.slice(0, maxCarouselLength)
+        : targetMuscleExercisesData
+        console.log(carouselTargetMuscleExercises.length)
+      setTargetMuscleExercises(carouselTargetMuscleExercises)
 
       const equipmentExercisesData = await fetchData(`${exerciseDbUrl}/exercises/equipment/${exerciseDetailData.equipment}`, exerciseOptions)
-      setEquipmentExercises(equipmentExercisesData)
+      const carouselEquipmentExercises = equipmentExercisesData.length > maxCarouselLength
+        ? equipmentExercisesData.slice(0, maxCarouselLength) 
+        : equipmentExercisesData
+      setEquipmentExercises(carouselEquipmentExercises)
     }
 
     fetchExerciseData()

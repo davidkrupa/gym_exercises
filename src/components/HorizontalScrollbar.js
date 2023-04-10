@@ -1,34 +1,26 @@
-import React, { useContext } from 'react'
-import { Box, Typography } from '@mui/material'
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu'
+import React from 'react'
+import { Box } from '@mui/material'
+import Carousel from 'react-multi-carousel'
+import "react-multi-carousel/lib/styles.css"
 
 import BodyPart from './BodyPart'
 import ExerciseCard from './ExerciseCard'
 
-import RightArrowIcon from '../assets/icons/right-arrow.png'
-import LeftArrowIcon from '../assets/icons/left-arrow.png'
-
-
 const HorizontalScrollbar = ({ data, bodyPart, setBodyPart, isBodyParts }) => {
 
-  const LeftArrow = () => {
-    const { scrollPrev } = useContext(VisibilityContext)
-  
-    return (
-      <Typography onClick={() => scrollPrev()} className="right-arrow">
-        <img src={LeftArrowIcon} alt="left-arrow" />
-      </Typography>
-    )
-  }
-  
-  const RightArrow = () => {
-    const { isLastItemVisible, scrollNext } = useContext(VisibilityContext)
-  
-    return (
-      <Typography onClick={() => scrollNext()} className="left-arrow">
-        <img src={RightArrowIcon} alt="right-arrow" />
-      </Typography>
-    )
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    }
   }
 
     const scrollbar = data.map(item => {
@@ -53,9 +45,10 @@ const HorizontalScrollbar = ({ data, bodyPart, setBodyPart, isBodyParts }) => {
     })
 
   return (
-    <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} >
-        {scrollbar}
-    </ScrollMenu>
+    <Carousel responsive={responsive} >
+      {scrollbar}
+    </Carousel>
+
   )
 }
 
